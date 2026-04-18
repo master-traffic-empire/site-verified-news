@@ -1,0 +1,11 @@
+node_modules/
+.next/
+.env
+*.tsbuildinfo
+.netlify/
+.DS_Store
+
+# Generated at build time by scripts/generate-md-articles.js
+public/news/
+public/desk/
+public/index.md

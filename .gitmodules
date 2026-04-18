@@ -1,0 +1,3 @@
+[submodule "base-site"]
+	path = base-site
+	url = https://github.com/master-traffic-empire/base-site.git
