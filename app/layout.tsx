@@ -27,7 +27,15 @@ export const viewport: Viewport = {
   initialScale: 1,
 }
 
-export const metadata: Metadata = generateSiteMetadata(siteConfig)
+const baseMetadata = generateSiteMetadata(siteConfig)
+export const metadata: Metadata = {
+  ...baseMetadata,
+  other: {
+    ...((baseMetadata.other as Record<string, string>) || {}),
+    "blogarama-site-verification":
+      "blogarama-a76ff566-8449-427d-9b0c-d90c59c786cb",
+  },
+}
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
