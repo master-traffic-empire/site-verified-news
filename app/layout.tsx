@@ -30,6 +30,9 @@ export const viewport: Viewport = {
 const baseMetadata = generateSiteMetadata(siteConfig)
 export const metadata: Metadata = {
   ...baseMetadata,
+  verification: {
+    google: "imc5M3WIqJ7_32AR3Sf27VpNBQ32iHfU92VhObkdyKY",
+  },
   other: {
     ...((baseMetadata.other as Record<string, string>) || {}),
     "blogarama-site-verification":
