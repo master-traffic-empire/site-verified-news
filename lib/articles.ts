@@ -27,6 +27,8 @@ export interface NewsArticle {
   tags: string[]
   url: string
   canonical: string
+  /** Author persona slug (e.g. "marcus-rivera", "raj-malhotra"). */
+  authorSlug: string
   /** Raw markdown body AFTER frontmatter (includes sources section). */
   body: string
   /** Markdown body with the trailing "## Grounding & Sources" block removed. */
@@ -37,6 +39,23 @@ export interface NewsArticle {
   readingTime: number
   /** Relative path to hero image (falls back to slug-based webp). */
   image: string | null
+}
+
+/** Map news desk → primary author persona slug. */
+function deskToAuthorSlug(desk: string): string {
+  switch (desk) {
+    case "tech":
+      return "raj-malhotra"
+    case "finance":
+      return "marcus-chen"
+    case "science":
+    case "consumer":
+    case "social":
+    case "sports":
+    case "politics":
+    default:
+      return "marcus-rivera"
+  }
 }
 
 export interface Desk {
@@ -159,11 +178,13 @@ export async function getAllArticles(): Promise<NewsArticle[]> {
     const image = imgFiles.has(`${slug}.webp`)
       ? `/images/blog/${slug}.webp`
       : null
+    const desk = (fm.desk as string) || "politics"
+    const authorSlug = (fm.author as string) || deskToAuthorSlug(desk)
     out.push({
       slug,
       title: (fm.title as string) || slug,
       description: (fm.description as string) || "",
-      desk: (fm.desk as string) || "politics",
+      desk,
       deskLabel:
         (fm.desk_label as string) ||
         DESKS.find((d) => d.id === fm.desk)?.label ||
@@ -177,6 +198,7 @@ export async function getAllArticles(): Promise<NewsArticle[]> {
       url: (fm.url as string) || `/news/${slug}/`,
       canonical:
         (fm.canonical as string) || `https://news.thicket.sh/news/${slug}/`,
+      authorSlug,
       body,
       bodyStripped: stripTrailingSections(body),
       sources: extractSources(body),

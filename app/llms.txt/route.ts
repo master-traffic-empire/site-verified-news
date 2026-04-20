@@ -1,6 +1,7 @@
 // app/llms.txt/route.ts — LLM-friendly index for GroundTruth
 import { siteConfig } from "@/site.config"
 import { DESKS, getAllArticles } from "@/lib/articles"
+import { authors } from "@/lib/authors"
 
 export async function GET() {
   const articles = await getAllArticles()
@@ -31,6 +32,13 @@ export async function GET() {
       `- [${d.label}](${siteConfig.baseUrl}/desk/${d.id}/) — ${count} stor${
         count === 1 ? "y" : "ies"
       }`
+    )
+  }
+  lines.push("")
+  lines.push("## Authors")
+  for (const a of Object.values(authors)) {
+    lines.push(
+      `- [${a.name}](${siteConfig.baseUrl}/authors/${a.slug}) — ${a.role}. ${a.shortBio}`
     )
   }
   lines.push("")

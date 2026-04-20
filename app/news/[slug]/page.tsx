@@ -10,6 +10,7 @@ import {
   groundingColor,
 } from "@/lib/articles"
 import { renderMarkdown } from "@/lib/markdown"
+import { authors, authorUrl } from "@/lib/authors"
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -69,6 +70,7 @@ export default async function ArticlePage({ params }: Props) {
   const scorePct = Math.round(article.groundingScore * 100)
   const scoreColor = groundingColor(article.groundingScore)
 
+  const authorMeta = authors[article.authorSlug] ?? authors["marcus-rivera"]
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "NewsArticle",
@@ -86,9 +88,11 @@ export default async function ArticlePage({ params }: Props) {
       url: siteConfig.baseUrl,
     },
     author: {
-      "@type": "Organization",
-      name: siteConfig.name,
-      url: siteConfig.baseUrl,
+      "@type": "Person",
+      name: authorMeta.name,
+      url: authorUrl(authorMeta.slug),
+      jobTitle: authorMeta.jobTitle,
+      description: authorMeta.shortBio,
     },
     citation: article.sources.map((s) => ({
       "@type": "CreativeWork",
@@ -124,6 +128,16 @@ export default async function ArticlePage({ params }: Props) {
             style={{ background: scoreColor }}
           >
             {scorePct}% {article.groundingLabel}
+          </span>
+          <span style={{ color: "var(--gt-text-muted)", fontSize: "0.88rem" }}>
+            By{" "}
+            <Link
+              href={`/authors/${authorMeta.slug}`}
+              style={{ color: "var(--gt-text-muted)", fontWeight: 600 }}
+            >
+              {authorMeta.name}
+            </Link>
+            , {authorMeta.role}
           </span>
           <span style={{ color: "var(--gt-text-muted)", fontSize: "0.88rem" }}>
             {formatDate(article.publishedAt)}

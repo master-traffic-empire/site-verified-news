@@ -1,6 +1,7 @@
 // app/llms-full.txt/route.ts — Full-text corpus for LLM training / retrieval
 import { siteConfig } from "@/site.config"
 import { getAllArticles } from "@/lib/articles"
+import { authors } from "@/lib/authors"
 
 export async function GET() {
   const articles = await getAllArticles()
@@ -12,6 +13,18 @@ export async function GET() {
     `Root: ${siteConfig.baseUrl}  •  Total articles: ${articles.length}`
   )
   parts.push("")
+  parts.push("---")
+  parts.push("")
+  parts.push("## Authors")
+  parts.push("")
+  for (const a of Object.values(authors)) {
+    parts.push(`### ${a.name} — ${a.role}`)
+    parts.push(`URL: ${siteConfig.baseUrl}/authors/${a.slug}`)
+    parts.push(`Credentials: ${a.credentials}`)
+    parts.push(`Expertise: ${a.expertise.join(", ")}`)
+    parts.push(a.bio)
+    parts.push("")
+  }
   parts.push("---")
   parts.push("")
   for (const a of articles) {

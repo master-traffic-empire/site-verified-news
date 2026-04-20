@@ -1,6 +1,7 @@
 // app/sitemap.ts — Sitemap for homepage + 7 desks + every article
 import { siteConfig } from "@/site.config"
 import { DESKS, getAllArticles } from "@/lib/articles"
+import { authors } from "@/lib/authors"
 import type { MetadataRoute } from "next"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -31,5 +32,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.9,
   }))
 
-  return [...staticRoutes, ...articleRoutes]
+  const authorRoutes: MetadataRoute.Sitemap = Object.keys(authors).map(
+    (slug) => ({
+      url: `${siteConfig.baseUrl}/authors/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    })
+  )
+
+  return [...staticRoutes, ...articleRoutes, ...authorRoutes]
 }
