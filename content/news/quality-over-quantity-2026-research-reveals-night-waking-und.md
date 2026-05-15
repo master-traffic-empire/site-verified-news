@@ -1,6 +1,6 @@
 ---
-title: "Quality Over Quantity: 2026 Research Reveals Night Waking Undermines Cognitive Speed"
-description: "New findings in 2026 emphasize sleep quality, not just duration, is critical for next-day processing speed, with night waking profoundly impacting performance."
+title: "Sleep Research April 2026: Night Waking Hurts Focus"
+description: "April 2026 sleep research finds night waking, not short duration, drives next-day cognitive slowdown. Quality, not quantity, predicts speed."
 slug: "quality-over-quantity-2026-research-reveals-night-waking-und"
 desk: "science"
 desk_label: "Science & Health"
